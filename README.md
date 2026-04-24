@@ -1,185 +1,64 @@
-# 🏫 Smart Campus Operations Hub
+# Smart Campus Operations Hub - How to Work
 
-**IT3030 – Programming Applications and Frameworks | Group Assignment 2026**
+Welcome to the **Smart Campus Operations Hub**! This guide will walk you through the core modules: **Booking Management** and **Maintenance Ticketing**.
 
-A full-stack web system for managing campus facility bookings and maintenance incident ticketing.
+## 🚀 Getting Started
 
----
-
-## 📋 Table of Contents
-- [Tech Stack](#tech-stack)
-- [Team & Module Ownership](#team--module-ownership)
-- [Project Structure](#project-structure)
-- [Setup & Run](#setup--run)
-- [API Endpoints](#api-endpoints)
-- [Testing](#testing)
-- [GitHub Actions CI/CD](#github-actions-cicd)
+1.  **Start Backend**: Open PowerShell in the root directory and run `./run-backend.ps1`.
+2.  **Start Frontend**: Open another terminal in the `frontend` folder and run `npm run dev`.
+3.  **Access App**: Open your browser at [http://localhost:5173](http://localhost:5173).
 
 ---
 
-## 🛠 Tech Stack
+## 📅 1. Booking Management (Member 2)
 
-| Layer | Technology |
-|---|---|
-| Backend | Java 11, Spring Boot 2.7.x, Spring Data JPA |
-| Database | H2 (in-memory, dev) / MySQL (production) |
-| Frontend | React 18, Vite, Axios |
-| Auth | Spring Security + OAuth 2.0 (Google) |
-| CI/CD | GitHub Actions |
-| Testing | JUnit 5, Mockito, Spring Boot Test |
+This module allows users to reserve campus facilities and admins to manage those requests.
 
----
+### **Step 1: Submit a Booking**
+- Navigate to the **"New Booking"** tab.
+- Select a facility (e.g., "Conference Room A").
+- Pick a **Date**, **Start Time**, and **End Time**.
+- Enter the **Purpose** (e.g., "AI Workshop") and **Expected Attendees**.
+- Click **Book Facility**.
 
-## 👥 Team & Module Ownership
+### **Step 2: Track Your Request**
+- Go to the **"My Bookings"** tab.
+- You will see your booking with a `PENDING` status.
+- Once an admin approves it, the status will turn green (`APPROVED`).
 
-| Member | Module | Branch | Endpoints |
-|---|---|---|---|
-| Member 1 | Facilities & Assets Catalogue | `member-1` | `GET/POST/PUT/DELETE /api/resources` |
-| Member 2 (Team Lead) | Booking Management + Integration | `member-2` | `GET/POST/PUT/DELETE /api/bookings` |
-| Member 3 | Incident Ticketing + Attachments + Comments | `member-3` | `GET/POST/PUT/DELETE /api/tickets` |
-| Member 4 | Notifications + OAuth 2.0 Auth | `member-4` | `GET/POST /api/notifications`, `/oauth2/**` |
-
----
-
-## 📁 Project Structure
-
-```
-smart-campus/
-├── .github/workflows/        # GitHub Actions CI/CD
-│   └── main.yml
-├── backend/                  # Spring Boot REST API
-│   └── src/main/java/com/smartcampus/
-│       ├── booking/          # Module B – Booking Management (Member 2)
-│       │   ├── controller/BookingController.java
-│       │   ├── service/BookingService.java
-│       │   ├── repository/BookingRepository.java
-│       │   ├── model/Booking.java
-│       │   └── dto/BookingRequest.java
-│       └── ticket/           # Module C – Incident Ticketing (Member 3)
-│           ├── controller/TicketController.java
-│           ├── service/TicketService.java
-│           ├── repository/TicketRepository.java
-│           └── model/
-├── frontend/                 # React + Vite
-│   └── src/
-│       ├── api/              # Axios service layer
-│       ├── components/
-│       │   ├── bookings/     # BookingForm, MyBookings, AdminBookings
-│       │   └── tickets/      # TicketForm, MyTickets, AdminTickets, TicketDetail
-│       └── App.jsx
-├── postman/                  # Postman API collection
-│   └── SmartCampus.postman_collection.json
-├── evidence/                 # Screenshots & testing evidence
-├── docker-compose.yml        # Run full stack with Docker
-└── README.md
-```
+### **Step 3: Admin Approval (Workflow)**
+- Navigate to the **"Admin Bookings"** tab.
+- You will see all pending campus bookings.
+- Click **Approve** to confirm or **Reject** (which prompts for a reason).
 
 ---
 
-## ⚙️ Setup & Run
+## 🚨 2. Maintenance & Incident Ticketing (Member 3)
 
-### Prerequisites
-- Java 11+
-- Node.js 18+
-- Maven 3.8+ (or use `./mvnw`)
+This module handles campus repairs and facility issues.
 
-### 1. Run Backend
+### **Step 1: Report an Incident**
+- Navigate to the **"Report Incident"** tab.
+- Provide a **Title** (e.g., "AC Leaking"), **Location**, and **Priority** (Critical/High/Medium/Low).
+- Describe the problem in detail.
+- Click **Submit Ticket**.
 
-```powershell
-# Windows PowerShell
-.\run-backend.ps1
-
-# Or manually
-cd backend
-mvn spring-boot:run
-```
-
-Backend starts at: **http://localhost:8080**
-H2 Console: **http://localhost:8080/h2-console**
-
-### 2. Run Frontend
-
-```bash
-cd frontend
-npm install
-npm run dev
-```
-
-Frontend starts at: **http://localhost:5173**
-
-### 3. Run with Docker (Optional)
-
-```bash
-docker-compose up --build
-```
+### **Step 2: Admin/Technician Management**
+- Navigate to the **"Admin Tickets"** tab.
+- Click **"View Details"** on any ticket.
+- **Assign Technician**: Select a staff member to handle the fix.
+- **Add Comments**: Admins and users can chat inside the ticket to provide updates.
+- **Update Status**: Move the ticket from `OPEN` to `IN_PROGRESS` and finally `RESOLVED`.
 
 ---
 
-## 📡 API Endpoints
+## 🐳 3. Advanced Features
 
-### Module B – Booking Management (Member 2)
-
-| Method | Endpoint | Description | Auth |
-|---|---|---|---|
-| `POST` | `/api/bookings` | Create a booking | USER |
-| `GET` | `/api/bookings/my?userId={id}` | Get my bookings | USER |
-| `GET` | `/api/bookings/all` | Get all bookings | ADMIN |
-| `GET` | `/api/bookings/{id}` | Get booking by ID | USER |
-| `PUT` | `/api/bookings/{id}/status` | Update booking status | ADMIN/USER |
-| `DELETE` | `/api/bookings/{id}` | Delete a booking | ADMIN |
-
-### Module C – Incident Ticketing (Member 3)
-
-| Method | Endpoint | Description | Auth |
-|---|---|---|---|
-| `POST` | `/api/tickets` | Create incident ticket | USER |
-| `GET` | `/api/tickets/my?userId={id}` | Get my tickets | USER |
-| `GET` | `/api/tickets/all` | Get all tickets | ADMIN |
-| `GET` | `/api/tickets/{id}` | Get ticket by ID | USER |
-| `PUT` | `/api/tickets/{id}/status` | Update status | ADMIN |
-| `PUT` | `/api/tickets/{id}/assign` | Assign technician | ADMIN |
-| `POST` | `/api/tickets/{id}/attachments` | Upload image (max 3) | USER |
-| `POST` | `/api/tickets/{id}/comments` | Add comment | USER |
-| `GET` | `/api/tickets/{id}/comments` | Get comments | USER |
-| `PUT` | `/api/tickets/{id}/comments/{cId}` | Edit comment (owner only) | USER |
-| `DELETE` | `/api/tickets/{id}/comments/{cId}` | Delete comment (owner only) | USER |
-| `DELETE` | `/api/tickets/{id}` | Delete ticket | ADMIN |
+- **Docker**: You can run the entire system using `docker-compose up`.
+- **CI/CD**: Every push to GitHub is automatically validated via the included GitHub Actions workflow.
+- **Tests**: Run `mvn test` in the backend to see the automated unit tests in action.
 
 ---
 
-## 🧪 Testing
-
-### Run Unit Tests
-
-```bash
-cd backend
-mvn test
-```
-
-### Postman Collection
-
-Import `postman/SmartCampus.postman_collection.json` into Postman to test all endpoints.
-
----
-
-## 🔄 GitHub Actions CI/CD
-
-A GitHub Actions workflow runs automatically on every push to verify the build and run all tests.
-
-See `.github/workflows/main.yml` for details.
-
----
-
-## 🔐 Security Notes
-
-- All endpoints are protected by Spring Security
-- Role-based access: `USER` and `ADMIN`
-- OAuth 2.0 (Google) for authentication
-- File upload restricted to images (JPEG, PNG, GIF, WEBP), max 5MB each
-
----
-
-## 📝 Submission
-
-- **Deadline:** 27th April 2026, 11:45 PM (GMT+5:30)
-- **Report:** IT3030_PAF_Assignment_2026_GroupXX.pdf
+> [!TIP]
+> Use the **Home** page to quickly jump between these modules. The interactive cards provide a direct path to the most common tasks.
