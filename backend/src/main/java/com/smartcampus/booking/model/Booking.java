@@ -27,15 +27,26 @@ public class Booking {
     @Column(nullable = false)
     private BookingStatus status;
 
+    @Column(nullable = true)
+    private String purpose;
+
+    @Column(nullable = true)
+    private Integer expectedAttendees;
+
+    @Column(nullable = true)
+    private String adminReason;
+
     public Booking() {
     }
 
-    public Booking(Long resourceId, Long userId, LocalDateTime startTime, LocalDateTime endTime, BookingStatus status) {
+    public Booking(Long resourceId, Long userId, LocalDateTime startTime, LocalDateTime endTime, BookingStatus status, String purpose, Integer expectedAttendees) {
         this.resourceId = resourceId;
         this.userId = userId;
         this.startTime = startTime;
         this.endTime = endTime;
         this.status = status;
+        this.purpose = purpose;
+        this.expectedAttendees = expectedAttendees;
     }
 
     public Long getId() {
@@ -84,5 +95,29 @@ public class Booking {
 
     public void setStatus(BookingStatus status) {
         this.status = status;
+    }
+
+    public String getPurpose() {
+        return purpose;
+    }
+
+    public void setPurpose(String purpose) {
+        this.purpose = purpose;
+    }
+
+    public Integer getExpectedAttendees() {
+        return expectedAttendees;
+    }
+
+    public void setExpectedAttendees(Integer expectedAttendees) {
+        this.expectedAttendees = expectedAttendees;
+    }
+
+    public String getAdminReason() {
+        return adminReason;
+    }
+
+    public void setAdminReason(String adminReason) {
+        this.adminReason = adminReason;
     }
 }

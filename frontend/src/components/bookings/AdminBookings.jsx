@@ -19,10 +19,8 @@ const AdminBookings = () => {
     const fetchAllBookings = async () => {
         try {
             setLoading(true);
-            // Replace with actual endpoint to get all bookings
-            // const data = await axios.get('http://localhost:8080/api/admin/bookings');
-            // For now, this is just a placeholder mock to demonstrate the UI
-            setBookings([]);
+            const data = await bookingApi.getAllBookings();
+            setBookings(data);
             setError('');
         } catch (err) {
             setError('Failed to load bookings.');
@@ -32,11 +30,16 @@ const AdminBookings = () => {
     };
 
     const handleUpdateStatus = async (bookingId, status) => {
+        let adminReason = null;
+        if (status === 'REJECTED') {
+            adminReason = window.prompt("Please provide a reason for rejection:");
+            if (adminReason === null) return; // User cancelled
+        }
+
         try {
-            await bookingApi.updateBookingStatus(bookingId, status);
-            // In a real scenario, refresh the list: fetchAllBookings();
-            // Since we use mock data, let's just update local state
-            setBookings(bookings.map(b => b.id === bookingId ? { ...b, status } : b));
+            await bookingApi.updateBookingStatus(bookingId, status, adminReason);
+            fetchAllBookings(); // Refresh the list from the server
+
         } catch (err) {
             setError(`Failed to ${status.toLowerCase()} booking.`);
         }
@@ -58,6 +61,7 @@ const AdminBookings = () => {
                             <th>ID</th>
                             <th>User ID</th>
                             <th>Resource ID</th>
+                            <th>Purpose</th>
                             <th>Time</th>
                             <th>Status</th>
                             <th>Actions</th>
@@ -70,6 +74,10 @@ const AdminBookings = () => {
                                 <td>{booking.userId}</td>
                                 <td>{booking.resourceId}</td>
                                 <td>
+                                    {booking.purpose}
+                                    {booking.expectedAttendees && <><br/><small>({booking.expectedAttendees} attendees)</small></>}
+                                </td>
+                                <td>
                                     {new Date(booking.startTime).toLocaleString()} - <br/>
                                     {new Date(booking.endTime).toLocaleString()}
                                 </td>
@@ -77,6 +85,11 @@ const AdminBookings = () => {
                                     <span className={`status-badge status-${booking.status.toLowerCase()}`}>
                                         {booking.status}
                                     </span>
+                                    {booking.adminReason && (
+                                        <div className="admin-reason">
+                                            <small>Reason: {booking.adminReason}</small>
+                                        </div>
+                                    )}
                                 </td>
                                 <td>
                                     {booking.status === 'PENDING' && (

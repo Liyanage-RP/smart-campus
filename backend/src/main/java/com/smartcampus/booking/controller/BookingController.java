@@ -41,6 +41,12 @@ public class BookingController {
         return ResponseEntity.ok(bookings);
     }
 
+    @GetMapping("/all")
+    public ResponseEntity<List<Booking>> getAllBookings() {
+        List<Booking> bookings = bookingService.getAllBookings();
+        return ResponseEntity.ok(bookings);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<Booking> getBookingById(@PathVariable Long id) {
         return bookingService.getBookingById(id)
@@ -52,11 +58,12 @@ public class BookingController {
     public ResponseEntity<?> updateBookingStatus(@PathVariable Long id, @RequestBody Map<String, String> body) {
         try {
             String statusStr = body.get("status");
+            String reasonStr = body.get("adminReason");
             if (statusStr == null) {
                 return ResponseEntity.badRequest().body(Map.of("message", "Status is required"));
             }
             BookingStatus status = BookingStatus.valueOf(statusStr.toUpperCase());
-            Booking updatedBooking = bookingService.updateBookingStatus(id, status);
+            Booking updatedBooking = bookingService.updateBookingStatus(id, status, reasonStr);
             return ResponseEntity.ok(updatedBooking);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(Map.of("message", "Invalid status or booking not found"));
