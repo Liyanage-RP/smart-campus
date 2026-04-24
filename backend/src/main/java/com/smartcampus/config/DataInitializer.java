@@ -40,8 +40,9 @@ public class DataInitializer {
             if (bookingRepository.count() == 0) {
                 Booking b1 = new Booking();
                 b1.setUserId(1L);
-                b1.setFacilityId("Conference Room A");
-                b1.setBookingDate(LocalDateTime.now().plusDays(1));
+                b1.setResourceId(101L); // Using a dummy ID for now
+                b1.setStartTime(LocalDateTime.now().plusDays(1));
+                b1.setEndTime(LocalDateTime.now().plusDays(1).plusHours(2));
                 b1.setPurpose("Project Meeting");
                 b1.setStatus(BookingStatus.PENDING);
                 bookingRepository.save(b1);
