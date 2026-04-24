@@ -5,10 +5,12 @@ import AdminBookings from './components/bookings/AdminBookings'
 import TicketForm from './components/tickets/TicketForm'
 import MyTickets from './components/tickets/MyTickets'
 import AdminTickets from './components/tickets/AdminTickets'
+import Home from './components/common/Home'
 import logo from './assets/logo.png'
 import './App.css'
 
 const PAGES = [
+  { id: 'home', label: '🏠 Home' },
   { id: 'my-bookings', label: '📅 My Bookings' },
   { id: 'new-booking', label: '➕ New Booking' },
   { id: 'admin-bookings', label: '🛡️ Admin Bookings' },
@@ -18,17 +20,18 @@ const PAGES = [
 ]
 
 function App() {
-  const [activePage, setActivePage] = useState('my-bookings')
+  const [activePage, setActivePage] = useState('home')
 
   const renderPage = () => {
     switch (activePage) {
+      case 'home': return <Home onNavigate={setActivePage} />
       case 'my-bookings': return <MyBookings userId={1} />
       case 'new-booking': return <BookingForm userId={1} />
       case 'admin-bookings': return <AdminBookings />
       case 'my-tickets': return <MyTickets userId={1} />
       case 'new-ticket': return <TicketForm userId={1} />
       case 'admin-tickets': return <AdminTickets adminId={1} />
-      default: return <MyBookings />
+      default: return <Home onNavigate={setActivePage} />
     }
   }
 
