@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { bookingApi } from '../../api/bookingApi';
-import './bookings.css'; // Assume some basic CSS exists
 
 const BookingForm = ({ userId = 1 }) => {
     const [formData, setFormData] = useState({
