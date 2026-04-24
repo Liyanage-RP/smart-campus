@@ -2,32 +2,23 @@ version: '3.8'
 
 services:
   backend:
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
+    build: ./backend
     ports:
       - "8080:8080"
     environment:
-      - SPRING_PROFILES_ACTIVE=dev
-    volumes:
-      - uploads:/app/uploads
+      - SPRING_PROFILES_ACTIVE=prod
     networks:
-      - smart-campus-net
+      - smart-campus-network
 
   frontend:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile.frontend
+    build: ./frontend
     ports:
-      - "5173:80"
+      - "5173:5173"
     depends_on:
       - backend
     networks:
-      - smart-campus-net
-
-volumes:
-  uploads:
+      - smart-campus-network
 
 networks:
-  smart-campus-net:
+  smart-campus-network:
     driver: bridge
