@@ -5,7 +5,6 @@ const Home = ({ onNavigate }) => {
     return (
         <div className="home-container">
             <div className="hero-section">
-                <img src={logo} alt="Smart Campus Logo" className="hero-logo" />
                 <h1 className="hero-title">Welcome to Smart Campus</h1>
                 <p className="hero-subtitle">Streamlining Facility Management & Incident Reporting</p>
             </div>

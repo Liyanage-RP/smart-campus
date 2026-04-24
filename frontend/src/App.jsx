@@ -20,7 +20,7 @@ const PAGES = [
 ]
 
 function App() {
-  const [activePage, setActivePage] = useState('home')
+  const [activePage, setActivePage] = useState('my-bookings')
 
   const renderPage = () => {
     switch (activePage) {
