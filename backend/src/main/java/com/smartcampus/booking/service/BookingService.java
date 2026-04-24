@@ -41,7 +41,9 @@ public class BookingService {
                 request.getUserId(),
                 request.getStartTime(),
                 request.getEndTime(),
-                BookingStatus.PENDING
+                BookingStatus.PENDING,
+                request.getPurpose(),
+                request.getExpectedAttendees()
         );
 
         return bookingRepository.save(booking);
@@ -51,15 +53,22 @@ public class BookingService {
         return bookingRepository.findByUserId(userId);
     }
 
+    public List<Booking> getAllBookings() {
+        return bookingRepository.findAll();
+    }
+
     public Optional<Booking> getBookingById(Long id) {
         return bookingRepository.findById(id);
     }
 
-    public Booking updateBookingStatus(Long id, BookingStatus newStatus) {
+    public Booking updateBookingStatus(Long id, BookingStatus newStatus, String adminReason) {
         Booking booking = bookingRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Booking not found"));
         
         booking.setStatus(newStatus);
+        if (adminReason != null && !adminReason.trim().isEmpty()) {
+            booking.setAdminReason(adminReason);
+        }
         return bookingRepository.save(booking);
     }
 

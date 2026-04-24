@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { bookingApi } from '../../api/bookingApi';
-import './bookings.css'; // Assume some basic CSS exists
 
 const BookingForm = ({ userId = 1 }) => {
     const [formData, setFormData] = useState({
         resourceId: '',
         startTime: '',
-        endTime: ''
+        endTime: '',
+        purpose: '',
+        expectedAttendees: ''
     });
     const [message, setMessage] = useState('');
     const [error, setError] = useState('');
@@ -25,12 +26,14 @@ const BookingForm = ({ userId = 1 }) => {
                 userId,
                 resourceId: parseInt(formData.resourceId),
                 startTime: new Date(formData.startTime).toISOString(),
-                endTime: new Date(formData.endTime).toISOString()
+                endTime: new Date(formData.endTime).toISOString(),
+                purpose: formData.purpose,
+                expectedAttendees: formData.expectedAttendees ? parseInt(formData.expectedAttendees) : null
             };
             
             await bookingApi.createBooking(bookingRequest);
             setMessage('Booking created successfully! It is pending approval.');
-            setFormData({ resourceId: '', startTime: '', endTime: '' });
+            setFormData({ resourceId: '', startTime: '', endTime: '', purpose: '', expectedAttendees: '' });
         } catch (err) {
             if (err.response && err.response.status === 409) {
                 setError('Conflict: The resource is already booked for this time.');
@@ -77,6 +80,25 @@ const BookingForm = ({ userId = 1 }) => {
                         value={formData.endTime} 
                         onChange={handleChange} 
                         required 
+                    />
+                </div>
+                <div className="form-group">
+                    <label>Purpose:</label>
+                    <textarea 
+                        name="purpose" 
+                        value={formData.purpose} 
+                        onChange={handleChange} 
+                        required 
+                        rows="3"
+                    ></textarea>
+                </div>
+                <div className="form-group">
+                    <label>Expected Attendees:</label>
+                    <input 
+                        type="number" 
+                        name="expectedAttendees" 
+                        value={formData.expectedAttendees} 
+                        onChange={handleChange} 
                     />
                 </div>
                 <button type="submit" className="btn btn-primary">Book Resource</button>

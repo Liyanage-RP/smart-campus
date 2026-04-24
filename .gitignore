@@ -1,0 +1,23 @@
+# Node
+frontend/node_modules
+frontend/dist
+frontend/.env
+
+# Maven / Spring Boot
+backend/target/
+backend/.mvn/
+*.log
+
+# Java class files
+*.class
+*.jar
+*.war
+
+# IDE
+.idea/
+*.iml
+.vscode/settings.json
+.DS_Store
+
+# Uploads
+backend/uploads/

@@ -48,6 +48,8 @@ const MyBookings = ({ userId = 1 }) => {
                     <thead>
                         <tr>
                             <th>Resource ID</th>
+                            <th>Purpose</th>
+                            <th>Attendees</th>
                             <th>Start Time</th>
                             <th>End Time</th>
                             <th>Status</th>
@@ -58,12 +60,19 @@ const MyBookings = ({ userId = 1 }) => {
                         {bookings.map(booking => (
                             <tr key={booking.id}>
                                 <td>{booking.resourceId}</td>
+                                <td>{booking.purpose}</td>
+                                <td>{booking.expectedAttendees || 'N/A'}</td>
                                 <td>{new Date(booking.startTime).toLocaleString()}</td>
                                 <td>{new Date(booking.endTime).toLocaleString()}</td>
                                 <td>
                                     <span className={`status-badge status-${booking.status.toLowerCase()}`}>
                                         {booking.status}
                                     </span>
+                                    {booking.status === 'REJECTED' && booking.adminReason && (
+                                        <div className="reject-reason">
+                                            <small>Reason: {booking.adminReason}</small>
+                                        </div>
+                                    )}
                                 </td>
                                 <td>
                                     {(booking.status === 'PENDING' || booking.status === 'APPROVED') && (

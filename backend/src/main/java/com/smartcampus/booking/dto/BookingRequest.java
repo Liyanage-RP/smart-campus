@@ -8,6 +8,8 @@ public class BookingRequest {
     private Long userId;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
+    private String purpose;
+    private Integer expectedAttendees;
 
     // Getters and Setters
     public Long getResourceId() {
@@ -40,5 +42,21 @@ public class BookingRequest {
 
     public void setEndTime(LocalDateTime endTime) {
         this.endTime = endTime;
+    }
+
+    public String getPurpose() {
+        return purpose;
+    }
+
+    public void setPurpose(String purpose) {
+        this.purpose = purpose;
+    }
+
+    public Integer getExpectedAttendees() {
+        return expectedAttendees;
+    }
+
+    public void setExpectedAttendees(Integer expectedAttendees) {
+        this.expectedAttendees = expectedAttendees;
     }
 }
