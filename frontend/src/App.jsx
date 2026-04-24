@@ -5,6 +5,7 @@ import AdminBookings from './components/bookings/AdminBookings'
 import TicketForm from './components/tickets/TicketForm'
 import MyTickets from './components/tickets/MyTickets'
 import AdminTickets from './components/tickets/AdminTickets'
+import logo from './assets/logo.png'
 import './App.css'
 
 const PAGES = [
@@ -34,7 +35,10 @@ function App() {
   return (
     <div className="app">
       <header className="app-header">
-        <h1>🏫 Smart Campus Operations Hub</h1>
+        <div className="header-content">
+          <img src={logo} alt="Smart Campus Logo" className="app-logo" />
+          <h1>Smart Campus Operations Hub</h1>
+        </div>
         <nav className="app-nav">
           {PAGES.map(page => (
             <button

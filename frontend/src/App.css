@@ -7,13 +7,41 @@ body {
 }
 
 .app-header {
-  background: linear-gradient(135deg, #1a237e, #283593);
+  background: linear-gradient(135deg, #0f172a, #1e293b);
   color: white;
-  padding: 16px 24px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  padding: 20px 40px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
 }
 
-.app-header h1 { font-size: 1.5rem; margin-bottom: 12px; }
+.header-content {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 24px;
+}
+
+.app-logo {
+  height: 80px;
+  width: auto;
+  filter: drop-shadow(0 0 15px rgba(56, 189, 248, 0.6));
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.app-logo:hover {
+  transform: scale(1.08) rotate(-2deg);
+}
+
+.app-header h1 { 
+  font-size: 2.8rem; 
+  font-weight: 900;
+  letter-spacing: -1.5px;
+  line-height: 1.1;
+  background: linear-gradient(to bottom, #ffffff, #94a3b8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
 
 .app-nav { display: flex; flex-wrap: wrap; gap: 8px; }
 
