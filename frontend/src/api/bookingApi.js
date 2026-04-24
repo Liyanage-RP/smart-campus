@@ -14,13 +14,22 @@ export const bookingApi = {
         return response.data;
     },
 
+    getAllBookings: async () => {
+        const response = await axios.get(`${API_BASE_URL}/all`);
+        return response.data;
+    },
+
     getBookingById: async (id) => {
         const response = await axios.get(`${API_BASE_URL}/${id}`);
         return response.data;
     },
 
-    updateBookingStatus: async (id, status) => {
-        const response = await axios.put(`${API_BASE_URL}/${id}/status`, { status });
+    updateBookingStatus: async (id, status, adminReason = null) => {
+        const payload = { status };
+        if (adminReason) {
+            payload.adminReason = adminReason;
+        }
+        const response = await axios.put(`${API_BASE_URL}/${id}/status`, payload);
         return response.data;
     },
 
